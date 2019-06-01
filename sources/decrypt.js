@@ -39,6 +39,16 @@ module.exports = (message, options) => {
 	 *
 	 */
 
-	return zlib.unzipSync(Buffer.from(message, `base64`)).toString(`utf8`)
+	const decoded = zlib.unzipSync(Buffer.from(message, `base64`)).toString(`utf8`)
+
+	/**
+	 *
+	 */
+
+	try {
+		return JSON.parse(decoded)
+	} catch (cause) {
+		return decoded
+	}
 
 }
