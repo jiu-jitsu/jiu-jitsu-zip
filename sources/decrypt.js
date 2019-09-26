@@ -47,7 +47,7 @@ module.exports = (message, options) => {
 
 	try {
 		return JSON.parse(decoded)
-	} catch (cause) {
+	} catch (error) {
 		return decoded
 	}
 
