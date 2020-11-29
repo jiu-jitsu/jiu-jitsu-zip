@@ -3,13 +3,14 @@
  *
  */
 
-const zlib = require(`zlib`)
+const util = require("util")
+const zlib = require("zlib")
 
 /**
  *
  */
 
-module.exports = (message, options) => {
+module.exports = async (message, options = {}) => {
 
 	/**
 	 *
@@ -39,6 +40,21 @@ module.exports = (message, options) => {
 	 *
 	 */
 
-	return zlib.gzipSync(message).toString(`base64`)
+	if (!options.encoding) {
+		options.encoding = "base64"
+	}
+
+	/**
+	 * @type {Buffer} encodedBuffer
+	 */
+
+	const encodedBuffer = await util.promisify(zlib.gzip)(message)
+	const encodedString = encodedBuffer.toString(options.encoding)
+
+	/**
+	 *
+	 */
+
+	return encodedString
 
 }
