@@ -3,7 +3,6 @@
  *
  */
 
-const util = require("util")
 const zlib = require("zlib")
 
 /**
@@ -54,7 +53,7 @@ module.exports = async (message, options = {}) => {
 	 *
 	 */
 
-	const decodedBuffer = await util.promisify(zlib.unzip)(message)
+	const decodedBuffer = await new Promise((resolve) => zlib.unzip(message, resolve))
 	const decodedString = decodedBuffer.toString()
 
 	/**
