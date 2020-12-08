@@ -10,51 +10,43 @@ const zlib = require("zlib")
  *
  */
 
-module.exports = async (message, options = {}) => {
+module.exports = async (value) => {
 
 	/**
 	 *
 	 */
 
-	if (!message) {
-		return message
+	if (!value) {
+		return value
 	}
 
 	/**
 	 *
 	 */
 
-	if (message.constructor === Object) {
-		return message
+	if (value.constructor === Object) {
+		return value
 	}
 
 	/**
 	 *
 	 */
 
-	if (message.constructor === Array) {
-		return message
+	if (value.constructor === Array) {
+		return value
 	}
 
 	/**
 	 *
 	 */
 
-	if (!options.encoding) {
-		options.encoding = "base64"
-	}
+	value = Buffer.from(value, "base64")
 
 	/**
 	 *
 	 */
 
-	message = Buffer.from(message, options.encoding)
-
-	/**
-	 *
-	 */
-
-	const decodedBuffer = await util.promisify(zlib.unzip)(message)
+	const decodedBuffer = await util.promisify(zlib.unzip)(value)
 	const decodedString = decodedBuffer.toString()
 
 	/**
